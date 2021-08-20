@@ -44,7 +44,7 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           {/* auth로 페이지들을 감싸줌 export default function (SpecificComponent, option, adminRoute = null) {
               option 종류
-              null    =>  아무나 출입이 가능한 페이지
+              null    =>  아무나 출입이 가능한 페이지e
               true    =>  로그인한 유저만 출입이 가능한 페이지
               false   =>  로그인한 유저는 출입 불가능한 페이지 */}
         </Switch>

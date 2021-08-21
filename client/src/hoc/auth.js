@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-//import Axios from 'axios';
+import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { auth } from '../_actions/user_action';
 //app.js 에서 import Auth from './hoc/auth' 해줘서 모든 페이지 컴포넌트들을 auth hoc에 넣어줌
@@ -23,6 +23,15 @@ export default function (SpecificComponent, option, adminRoute = null) {
                 if (!response.payload.isAuth) {
                     if (option) { // option == true 와 같음
                         props.history.push('/login')
+                    }
+                }
+                else {
+                    //로그인 한 상태 
+                    if (adminRoute && !response.payload.isAdmin) {
+                        props.history.push('/')
+                    } else {
+                        if (option === false)
+                            props.history.push('/')
                     }
                 }
             })

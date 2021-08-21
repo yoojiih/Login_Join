@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 //몽구스를 이용해 몽고db와 연결
 const mongoose = require('mongoose')
-mongoose.connect(config.mongoURI, {
+mongoose.connect(config.mongoURI, { 
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))

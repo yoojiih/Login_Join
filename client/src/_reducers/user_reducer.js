@@ -13,11 +13,12 @@ export default function (state = {}, action) {
     switch (action.type) {
         case LOGIN_USER:
             return { ...state, loginSuccess: action.payload }  
+            break;
             //현재 state는 ...(=spread operator) 즉 state = {}을 그대로 가져오는거라 그냥 빈상태 = 원본 state
             //user_action.js에서의 payload: 를 loginSuccess에다가 넣어준 것  
             //로그인 시 loginSuccess: true 되고 노드 서버측 index.js에  .json({ loginSuccess: true, userId: user._id }) 넣어 놔서  userId가 redux store안에 들어오게 됨  
             //LoginPage.js에 import { loginUser } from '../../../_actions/user_action'; & index.js에 import user from './user_reducer'; 넣어줌
-            break;
+            
         case REGISTER_USER:
             return { ...state, register: action.payload }  //서버에서 가져온 response를 action.payload로 넣어줌
             break;

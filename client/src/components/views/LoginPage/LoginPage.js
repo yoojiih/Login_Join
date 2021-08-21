@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';  //dispatch
+import Axios from 'axios'
+import { useDispatch } from 'react-redux'; //dispatch
 import { loginUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom';
+
 function LoginPage(props) {
     const dispatch = useDispatch();
     //dispatch(action)을 이용해서 action 취함 \

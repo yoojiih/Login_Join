@@ -1,0 +1,35 @@
+.nav {
+    margin: 0 auto;
+    height: 80px;
+    width: 100%;
+    display: inline-block;
+} 
+.logo {
+    transition-property: background-color = red;
+    transition-duration: 3;
+    width: 15%;
+    height: 80px;
+    float: left;
+}
+.logo a {
+    display: inline-block;
+    font-size: 20px;
+    padding: 19px 20px;
+    text-decoration:none;
+}
+.menu {
+    transition-property: background-color = red;
+    transition-duration: 3;
+    width: 85%;
+    height: 80px;
+    display: inline-block;
+    
+    /* background-color: coral; */
+}
+.menu a {
+    text-align:right;
+    font-size: 13px;
+    padding: 19px 20px;
+    text-decoration:none;
+    float: right;
+}

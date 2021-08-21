@@ -1,11 +1,20 @@
 const express = require('express')
 const app = express()
+// const router = express.Router();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/key');
 const { auth } = require('./middleware/auth');
 const { User } = require("./models/User");
+const multer = require('multer')
 
+//몽구스를 이용해 몽고db와 연결
+const mongoose = require('mongoose')
+mongoose.connect(config.mongoURI, { 
+  useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
+}).then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+//연결 확인용 안됐을땐 catch문으로
 //application/x-www-form-urlencoded 이렇게 된 데이터를 분석해서 가져올 수 있게 해주는 것
 //bodyparser가 클라이언트에서 오는 정보를 서버에서 분석해서 가져올 수 있게 해줌
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,18 +22,90 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //application/json 타입으로 된 것을 분석해서 가져올 수 있게 해주기 위해 넣음
 app.use(bodyParser.json());
 app.use(cookieParser());
-//몽구스를 이용해 몽고db와 연결
-const mongoose = require('mongoose')
-mongoose.connect(config.mongoURI, { 
-  useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
-}).then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err))
-//연결 확인용 안됐을땐 catch문으로
+
+//upload========
+app.use('/uploads', express.static('uploads'));
+if (process.env.NODE_ENV === "production") {
+
+  // Set static folder
+  app.use(express.static("client/build"));
+
+  // index.html for all page routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+  });
+}
+//upload========end
 
 app.get('/', (req, res) => res.send('Hello World!~~ '))
 
 app.get('/api/hello', (req, res) => res.send('Hello World!~~ '))
-// 입력 값 : user name  id  password 값
+
+// //---------서버에 이미지 저장 --------------
+// // -----------------------서버에 이미지 저장 ------------ 
+
+// var storage = multer.diskStorage({
+
+//   // 파일 저장 경로설정
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/')
+//   },
+//   // 어떤 이름으로 저장될지 설정
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+
+// })
+
+// var upload = multer({ storage: storage }).single('file')
+
+// app.post('/api/users/upload', (req, res) => {
+
+//     // 이미지를 저장
+//     upload(req, res, err => {
+//         if (err) {
+//             return req.json({ success: false, err })
+//         }
+//         // 클라이언트로 파일정보를 전달
+//         return res.json({ success: true,
+//             filePath: res.req.file.path,
+//             fileName: res.req.file.filename})
+//     })
+
+// })
+
+// // 클라이언트에서 보내진 정보를 MongoDB에 저장
+// app.post('/', (req, res) => {
+
+//   const product = new Product(req.body)
+
+//   product.save((err) => {
+//       if (err) return res.status(400).json({ success: false, err })
+//       return res.status(200).json({ success: true })
+//   })
+// })
+
+
+// //---------서버에 이미지 저장 end--------------
+
+
+// upload----------------------------------
+app.post('/api/users/upload', (req, res) => {
+  
+  const user = new User(req.body)
+  user.save((err, userInfo) => {
+    if (err) return res.json({ uploadSuccess: false, err })  
+    return res.status(200).json({ 
+      uploadSuccess: true
+    })
+  })
+})
+
+
+
+//-------------------------upload end
+
+// 입력 값 : id  password 값
 app.post('/api/users/register', (req, res) => {
   //register Route
   //회원 가입시 정보들을 client에서 가져오면 DB에 넣어줌
@@ -114,6 +195,7 @@ app.get('/api/users/logout', auth, (req, res) => {
 const port = 5000 //어플이 5000 번 포트에서 시작
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
 
 //nodemon 이용시 서버 끄고 npm run start 하는거 없이 소스변화 감지해 반영 시킴.  = live server?
 // npm install nodemon --save dev

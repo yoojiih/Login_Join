@@ -2,33 +2,23 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
+  //,Link
 } from "react-router-dom";
 //cd client   후에 npm install react-router-dom --save
 //react router dom  사용방법-  https://reacttraining.com/react-router/web/example/basic 
-import LandingPage from './components/views/LandingPage/LandingPage'
+import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
-import Auth from './hoc/auth'
+import NavBar from './components/views/NavBar/NavBar';
+import Auth from './hoc/auth';
+import UploadPage from './components/views/UploadPage/UploadPage';
 //App.js는 Routing 관련 일 시키는 곳 
 function App() {
   return (
     <Router>
       <div>
-      <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
-
-        <hr />
+      <NavBar />
         {/*
           A <Switch> looks through all its children <Route>
           elements and renders the first one whose path
@@ -40,6 +30,7 @@ function App() {
           <Route exact path="/" component={Auth(LandingPage, null )  } />
           {/*<Route exact path="/"> 
                 Auth(LandingPage, null ) 를 깔끔하게 한줄로 표현한 것 */}
+          <Route exact path="/upload" component={Auth(UploadPage, true) } />
           <Route exact path="/login" component={Auth(LoginPage, false) } />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           {/* auth로 페이지들을 감싸줌 export default function (SpecificComponent, option, adminRoute = null) {

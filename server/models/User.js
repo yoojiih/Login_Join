@@ -25,7 +25,16 @@ const userSchema = mongoose.Schema({
     },
     tokenExp: {
         type: Number
+    },
+
+    description: {
+        type: String,
+    },
+    images: {
+        type: Array,
+        default: [],
     }
+
 }) 
 	
 userSchema.pre('save', function (next) {
@@ -93,3 +102,12 @@ userSchema.statics.findByToken = function(token, cb) {
 
 const User = mongoose.model('User', userSchema) //스키마를 모델로 감싸줘야하기 때문에 (모델의 이름 , 스키마)
 module.exports = { User } // 모델을 다른 곳에서도 쓸 수 있게 exports
+// productSchema.index({ 
+//     title:'text',
+//     description: 'text',
+// }, {
+//     weights: {
+//         name: 5,
+//         description: 1,
+//     }
+// })

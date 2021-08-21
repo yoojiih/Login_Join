@@ -1,9 +1,18 @@
 import axios from 'axios';
 import {
+    UPLOAD_USER,
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER
 } from './types';   //_actions 폴더에 types.js파일에서 type: 를 가져오는 식으로 설정
+export function uploadUser(dataToSubmit) { 
+    const request = axios.post('/api/users/upload', dataToSubmit)  
+        .then(response => response.data)
+    return {
+        type: UPLOAD_USER,  
+        payload: request 
+    }
+}
 export function loginUser(dataToSubmit) {
     // request라는 변수에 지정해주고 서버에다가 request를 날린 후 
     //reponse 받은거에다가 reponse.data 이런식으로 서버에서 받은 데이터를 request 에다가 저장함
